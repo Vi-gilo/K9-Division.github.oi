@@ -1,1 +1,542 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual K-9 LSSD - Intranet</title>
+    <style>
+        :root {
+            --lssd-green: #2c3e2e;
+            --lssd-green-light: #4a5c4c;
+            --lssd-tan: #e9e5d9;
+            --lssd-tan-light: #fdfbf7;
+            --lssd-gold: #d4af37;
+            --text-main: #333333;
+            --danger: #b22222;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--lssd-tan);
+            margin: 0;
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 320px;
+            background-color: var(--lssd-green);
+            color: var(--lssd-tan);
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            border-bottom: 2px solid var(--lssd-gold);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
+            color: var(--lssd-gold);
+            font-size: 1.2rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin: 5px 0 0 0;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-chapter {
+            font-weight: bold;
+            color: var(--lssd-gold);
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+
+        .nav-item a {
+            color: #d1cfc9;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s, background-color 0.2s;
+            display: block;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+
+        .nav-item a:hover {
+            color: #fff;
+            background-color: rgba(212, 175, 55, 0.2);
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background-color: var(--lssd-tan-light);
+            scroll-behavior: smooth;
+        }
+
+        .document-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 8px solid var(--lssd-green);
+        }
+
+        /* Top Bar Actions */
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-print {
+            background-color: var(--lssd-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: var(--lssd-green-light);
+        }
+
+        /* Typography */
+        h1 {
+            color: var(--lssd-green);
+            border-bottom: 2px solid var(--lssd-gold);
+            padding-bottom: 15px;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: var(--lssd-green);
+            margin-top: 40px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: var(--lssd-green-light);
+            margin-top: 25px;
+            font-size: 1.2rem;
+        }
+
+        p, li {
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: #444;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: var(--lssd-green);
+        }
+
+        /* Highlight & Roles */
+        .role-note {
+            font-style: italic;
+            color: #555;
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            border-left: 3px solid var(--lssd-gold);
+        }
+
+        .warning-text {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--lssd-green);
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            color: #444;
+        }
+
+        /* Print Media Query */
+        @media print {
+            body { height: auto; overflow: visible; background: white; }
+            .sidebar { display: none; }
+            .action-bar { display: none; }
+            .content-wrapper { padding: 0; background: white; }
+            .document-container { box-shadow: none; border-top: none; padding: 0; max-width: 100%; }
+            h1, h2 { page-break-after: avoid; }
+            p, ul, table { page-break-inside: avoid; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--lssd-tan); }
+        ::-webkit-scrollbar-thumb { background: var(--lssd-green-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--lssd-green); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>LSSD K-9 DIVISION</h2>
+            <p>Intranet Documental</p>
+        </div>
+        
+        <ul class="nav-list">
+            <li class="nav-chapter">CAPÍTULO I</li>
+            <li class="nav-item"><a href="#cap1-inc1">I. Entrada de servicio</a></li>
+            <li class="nav-item"><a href="#cap1-inc2">II. Cuidado del canino</a></li>
+            <li class="nav-item"><a href="#cap1-inc3">III. Equipamiento</a></li>
+            
+            <li class="nav-chapter">CAPÍTULO II</li>
+            <li class="nav-item"><a href="#cap2-inc1">I. Escala Uso de Fuerza</a></li>
+            <li class="nav-item"><a href="#cap2-inc2">II. Criterios despliegue</a></li>
+            <li class="nav-item"><a href="#cap2-inc3">III. Protección e integridad</a></li>
+
+            <li class="nav-chapter">CAPÍTULO III</li>
+            <li class="nav-item"><a href="#cap3-inc1">I. Tirador Activo</a></li>
+            <li class="nav-item"><a href="#cap3-inc2">II. Limpieza de Edificios</a></li>
+            <li class="nav-item"><a href="#cap3-inc3">III. Estupefacientes / Armas</a></li>
+            <li class="nav-item"><a href="#cap3-inc4">IV. Gestión de Perímetros</a></li>
+            <li class="nav-item"><a href="#cap3-inc5">V. Rastreo y Secuestros</a></li>
+            <li class="nav-item"><a href="#cap3-inc6">VI. 254 Victor</a></li>
+            <li class="nav-item"><a href="#cap3-inc7">VII. Paradas de Tráfico</a></li>
+
+            <li class="nav-chapter">CAPÍTULO IV</li>
+            <li class="nav-item"><a href="#cap4-inc1">I. Orden LOVE (Apoyo)</a></li>
+            <li class="nav-item"><a href="#cap4-inc2">II. Orden MEDIC (Táctica)</a></li>
+
+            <li class="nav-chapter">CAPÍTULO V</li>
+            <li class="nav-item"><a href="#cap5-inc1">I. K-9 Down (Herido)</a></li>
+            <li class="nav-item"><a href="#cap5-inc2">II. Golpes de Calor</a></li>
+            <li class="nav-item"><a href="#cap5-inc3">III. Transporte Aéreo</a></li>
+
+            <li class="nav-chapter">CAPÍTULO VI</li>
+            <li class="nav-item"><a href="#cap6-inc1">I. Criterios Evaluación</a></li>
+            <li class="nav-item"><a href="#cap6-inc2">II. Tabla Calificación</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper" id="scroll-area">
+        
+        <div class="action-bar">
+            <button class="btn-print" onclick="window.print()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                Imprimir / PDF
+            </button>
+        </div>
+
+        <div class="document-container">
+            <h1>MANUAL DE PROCEDIMIENTOS Y PROTOCOLOS<br><span style="font-size: 1.5rem; color: #777;">DIVISIÓN K-9 LSSD</span></h1>
+
+            <!-- CAPITULO I -->
+            <h2 id="cap1">CAPÍTULO I - SOBRE LA ENTRADA DE SERVICIO Y CUIDADO</h2>
+            
+            <h3 id="cap1-inc1">INCISO I - Procedimientos al entrar de servicio.</h3>
+            <p>El Agente Guía (Handler) es el único responsable de su binomio. Al iniciar su turno, debe cumplir estrictamente los siguientes pasos:</p>
+            <ol>
+                <li><strong>Inspección Médica y Física:</strong> Antes de salir de la estación, el agente debe revisar el estado físico del canino (patas, encías, estado anímico). <span class="role-note">(Rol: Uso de /me y /do para comprobar la salud del perro).</span></li>
+                <li><strong>Preparación del Vehículo:</strong> Verificar que el sistema de climatización trasera del vehículo K-9 funciona correctamente y que el mecanismo de apertura remota ("Door Popper") está operativo.</li>
+                <li><strong>Identificación en Radio:</strong> Al entrar en servicio, el agente debe anunciarse en radio indicando su distintivo K-9 (Ej. <em>"Unidad 2-Kilo-9 en servicio y disponible"</em>).</li>
+            </ol>
+
+            <h3 id="cap1-inc2">INCISO II - Cuidado, bienestar y mantenimiento del canino.</h3>
+            <p>El LSSD considera al canino como un Agente de la Ley a todos los efectos.</p>
+            <ul>
+                <li><strong>Hidratación y Descanso:</strong> El canino debe ser hidratado cada hora de patrullaje, especialmente en zonas áridas como Sandy Shores o Paleto Bay. Tras una persecución o búsqueda activa, el canino debe descansar un mínimo de 15 a 30 minutos en el vehículo climatizado.</li>
+                <li><strong>Interacción Pública:</strong> El canino no es una mascota. No se permitirá que civiles acaricien al canino a menos que el Handler lo autorice expresamente bajo una orden de "LIBRE" o "PLAY", y siempre bajo supervisión estricta.</li>
+                <li><strong>Faltas de Cuidado:</strong> Dejar al canino bajo el sol fuera del vehículo sin orden, no rolear su alimentación o forzarlo físicamente al límite se considerará <span class="warning-text">Negligencia Grave</span>, conllevando la expulsión de la división.</li>
+            </ul>
+
+            <h3 id="cap1-inc3">INCISO III - Equipamiento de la unidad y del canino.</h3>
+            <ul>
+                <li>El canino debe portar siempre su arnés táctico identificativo.</li>
+                <li>En situaciones de Código 2 Alto o Código 3, se le equipará el <strong>Chaleco Balístico K-9</strong>.</li>
+                <li>El Agente debe llevar consigo correas extensibles, botiquín veterinario básico (CAT para perros, gasas) y mordedores de recompensa.</li>
+            </ul>
+
+            <!-- CAPITULO II -->
+            <h2 id="cap2">CAPÍTULO II - DESPLIEGUE Y USO DE LA FUERZA K-9</h2>
+            
+            <h3 id="cap2-inc1">INCISO I - El Canino dentro de la escala del Uso de la Fuerza.</h3>
+            <p>El despliegue de un perro para morder (HATCH / LOCK) se considera <strong>Uso de Fuerza Menos Letal con potencial Letalidad</strong>.</p>
+            <ul>
+                <li><strong>Avisos Verbales:</strong> NUNCA se liberará a un canino para morder sin dar al menos DOS avisos verbales claros y fuertes: <em>"¡Departamento del Sheriff, deténgase o soltaré al perro y le morderá!"</em>.</li>
+                <li><strong>Excepciones al aviso:</strong> Solo se omitirá el aviso si darlo pone en riesgo inminente la vida del agente o de civiles (Ej. Emboscada sorpresa).</li>
+                <li><strong>Proporcionalidad:</strong> No se enviará al perro a morder a sospechosos que se rinden pacíficamente, niños, ancianos, o individuos por delitos menores (infracciones de tráfico sin huida).</li>
+            </ul>
+
+            <h3 id="cap2-inc2">INCISO II - Criterios de despliegue (Cuándo sacar al canino).</h3>
+            <p><strong>SÍ SE DEBE SACAR AL CANINO:</strong></p>
+            <ul>
+                <li>Búsqueda de sospechosos escondidos en edificios o áreas abiertas (rastreo).</li>
+                <li>Sospechosos que huyen a pie tras cometer delitos graves o violentos.</li>
+                <li>Protección del Handler ante una agresión física inminente.</li>
+                <li>Registros vehiculares con Causa Probable de drogas/armas.</li>
+            </ul>
+            <p><strong>NO SE DEBE SACAR AL CANINO (Se queda en el patrulla):</strong></p>
+            <ul>
+                <li>Controles de tráfico rutinarios sin sospecha de ilícitos.</li>
+                <li>Discusiones civiles o disturbios pacíficos.</li>
+                <li>Cuando el sospechoso está cooperando completamente en el suelo.</li>
+            </ul>
+
+            <h3 id="cap2-inc3">INCISO III - Protocolos de protección e integridad del canino.</h3>
+            <ul>
+                <li><strong>El canino NO es prescindible.</strong> No se le enviará en "Misiones Suicidas".</li>
+                <li>Si un sospechoso está atrincherado con un arma de fuego larga apuntando a una puerta, NO se enviará al perro primero. Se esperará al SEB (SWAT).</li>
+            </ul>
+
+            <!-- CAPITULO III -->
+            <h2 id="cap3">CAPÍTULO III - PROCEDIMIENTOS TÁCTICOS Y OPERATIVOS</h2>
+            
+            <h3 id="cap3-inc1">INCISO I - Protocolos en situaciones de Tirador Activo / Tiroteos (Shots Fired).</h3>
+            <ol>
+                <li><strong>Fuego Abierto / Tiroteo Estático:</strong> Si el Handler llega a un Código 0 (Tiroteo activo), el canino <strong>DEBE</strong> permanecer dentro del vehículo policial cerrado y blindado. El ruido de las armas, la confusión y el fuego cruzado pueden provocar "fuego amigo" hacia el perro.</li>
+                <li><strong>Huida armada:</strong> Si el tirador comienza a huir a pie y entra en una zona boscosa o callejones, el perro podrá ser desplegado bajo la orden de LOCK (derribo) para evitar que el sujeto tome posiciones de ventaja.</li>
+                <li><strong>Emboscadas:</strong> Si el Handler es atacado desde su vehículo, utilizará el mando remoto para abrir la puerta trasera.</li>
+            </ol>
+
+            <h3 id="cap3-inc2">INCISO II - Búsqueda y limpieza de Edificios Cerrados.</h3>
+            <ul>
+                <li><strong>Aviso Obligatorio ("K-9 Warning"):</strong> Antes de introducir al canino en un edificio cerrado, el Handler debe gritar desde la entrada: <em>"¡Departamento del Sheriff! ¡Salga con las manos en alto o enviaré al perro!"</em>. Se dará un margen de 15 segundos antes de soltar al animal.</li>
+                <li><strong>Despliegue sin correa ("Off-Leash"):</strong> Las búsquedas en interiores deben hacerse preferiblemente sin correa para evitar que el perro se enrede en muebles o esquinas ciegas, permitiéndole maniobrar y esquivar agresiones.</li>
+                <li><strong>Cobertura (Lethal Cover):</strong> El Handler NUNCA entrará solo detrás del perro. Deberá ir acompañado de al menos un agente regular que proporcione "cobertura letal" (arma de fuego desenfundada) mientras el Handler lee los movimientos del canino.</li>
+            </ul>
+
+            <h3 id="cap3-inc3">INCISO III - Búsqueda y detección de Estupefacientes / Armas.</h3>
+            <ul>
+                <li><strong>Perímetro de seguridad:</strong> Antes de que el perro olfatee un vehículo, los ocupantes deben ser retirados y ubicados a una distancia segura.</li>
+                <li><strong>Marcaje:</strong> Cuando el canino detecta la sustancia/pólvora, realizará un "Marcaje Pasivo" (se sentará mirando el punto exacto). <span class="role-note">(Rol: Uso de /do "El canino rascaría la puerta indicando positivo" o se sentaría).</span></li>
+                <li><strong>Prevención de Contaminación Cruzada:</strong> No se usarán perros de narcóticos para buscar explosivos/pólvora, y viceversa, a menos que el perro posea doble certificación. El agente debe usar guantes de nitrilo tras el hallazgo.</li>
+            </ul>
+
+            <h3 id="cap3-inc4">INCISO IV - Gestión de Perímetros (Atracos, Código 0 y Rehenes).</h3>
+            <ul>
+                <li><strong>Atracos a Tiendas/Bancos:</strong> La unidad K-9 se posicionará en el <strong>perímetro exterior trasero</strong> o callejones. El factor psicológico del ladrido disuade la huida por esa vía.</li>
+                <li><strong>Situaciones con Rehenes:</strong> El canino permanecerá en el vehículo. Un perro suelto puede aumentar el nerviosismo del secuestrador o atacar a un rehén en pánico.</li>
+            </ul>
+
+            <h3 id="cap3-inc5">INCISO V - Rastreo: Secuestros y Personas Desaparecidas.</h3>
+            <ul>
+                <li><strong>Punto de partida (PLS):</strong> La búsqueda comienza en el "Point Last Seen" (Último lugar donde se vio a la persona).</li>
+                <li><strong>Artículo de Olor:</strong> Se requiere una prenda no contaminada de la víctima. <span class="role-note">(Rol: Recoger olor en bolsa hermética).</span></li>
+                <li><strong>Conservación de la escena:</strong> El K-9 debe ser la primera unidad en entrar a la zona. Si otras unidades pisan la zona antes, se destruirá la pista de olor (Contaminación de escena).</li>
+            </ul>
+
+            <h3 id="cap3-inc6">INCISO VI - Persecuciones Vehiculares (254 Victor).</h3>
+            <ul>
+                <li><strong>Restricción de Maniobras Tácticas:</strong> La unidad K-9 <strong>tiene terminantemente prohibido</strong> realizar maniobras de intercepción (Código 100 / PIT Maneuver) o bloqueos frontales a alta velocidad (Code 0 Blocking). El impacto brusco puede activar los airbags traseros o volcar el vehículo, causando lesiones graves o la muerte al canino.</li>
+                <li><strong>Posicionamiento en Persecución:</strong> Una unidad K-9 puede liderar la persecución (Primaria) para mantener visual, pero en el momento en el que el Supervisor autorice un Código 100, el Handler <strong>deberá ceder su posición</strong> a una unidad regular y quedarse en cola (Secundaria o Terciaria).</li>
+                <li><strong>Huida a pie (Bail Out):</strong> Al ir en cola, el Handler estará en la posición perfecta para detener su vehículo con seguridad y desplegar al canino de forma inmediata en caso de que el sospechoso abandone el coche y huya a pie.</li>
+            </ul>
+
+            <h3 id="cap3-inc7">INCISO VII - Paradas de Tráfico (10-06) y Paradas de Alto Riesgo (Felony Stops).</h3>
+            <ul>
+                <li><strong>Parada Rutinaria (10-06):</strong> Durante una parada de tráfico normal por infracción, el canino permanecerá en el vehículo asegurado. El Handler actuará como un patrullero regular. Solo si durante la interacción surge una "Causa Probable" (olor a marihuana, nerviosismo extremo, armas a la vista), el Handler regresará a su patrulla, sacará al canino e iniciará un "Free-Air Sniff" (olfateo perimetral exterior del vehículo infractor).</li>
+                <li><strong>Parada de Alto Riesgo (Felony Stop):</strong>
+                    <ol>
+                        <li>La patrulla K-9 tomará su posición correspondiente en la formación táctica dictaminada por el LSSD, usando el bloque del motor como cobertura.</li>
+                        <li>El canino se quedará dentro del patrulla en un principio.</li>
+                        <li>Si el sospechoso se niega a cooperar o muestra intenciones de huir, el Oficial al Mando de la escena (OIC) puede solicitar el despliegue del K-9.</li>
+                        <li>El Handler se posicionará en el frente de la formación con el perro atado en corto, emitiendo el "K-9 Warning" como disuasión psicológica extrema. Si el sujeto intenta huir a pie rompiendo el perímetro, se ordenará la orden HATCH o LOCK.</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <!-- CAPITULO IV -->
+            <h2 id="cap4">CAPÍTULO IV - PROTOCOLOS DE APOYO, DESESCALADA Y MÉDICOS</h2>
+            
+            <h3 id="cap4-inc1">INCISO I - Orden LOVE (Apoyo Emocional y Prevención).</h3>
+            <p>Los caninos del LSSD están entrenados no solo para la intervención, sino para la desescalada de crisis y el soporte a la comunidad.</p>
+            <ul>
+                <li><strong>Prevención de Suicidios (Jumper / Autolesión):</strong> Si un sujeto amenaza con arrojarse de un puente o autolesionarse, el Handler puede enviar al canino con la orden <code>LOVE</code>. El perro se acercará lentamente y se tumbará a su lado o le dará toques con el hocico. El contacto físico con el animal reduce drásticamente el ritmo cardíaco del sujeto y frena el impulso autolítico.</li>
+                <li><strong>Víctimas de Traumas / Niños Perdidos:</strong> Tras un secuestro, accidente grave o rescate de menores, el canino será utilizado como "anclaje emocional" para calmar a las víctimas hasta la llegada de los servicios médicos (LSMD). <span class="role-note">(Rol: /do El canino apoyaría su cabeza en las piernas del niño, transmitiendo calor y calma).</span></li>
+            </ul>
+
+            <h3 id="cap4-inc2">INCISO II - Orden MEDIC (Asistencia Táctica de Combate).</h3>
+            <p>En situaciones de "Zona Caliente" (Tiroteo activo) donde un oficial o civil esté herido y expuesto, el canino puede realizar funciones de asistencia vital primaria aprovechando su baja silueta y velocidad.</p>
+            <ul>
+                <li><strong>Entrega de IFAK (Botiquín):</strong> El Handler puede colocar un botiquín táctico o cargadores de munición en el arnés del perro y usar la orden <code>SHIFT</code> o <code>MEDIC</code> para enviarlo a la posición del oficial acorralado.</li>
+                <li><strong>Asistencia en Hemorragias (Tracción de Torniquete):</strong> En caso de que el propio Handler reciba un disparo en el brazo y no pueda ajustarse el torniquete (CAT) con una sola mano, puede ordenar al canino morder el extremo del Velcro y tirar hacia atrás para cortar la hemorragia arterial. <span class="role-note">(Rol: Excelente uso de /me para rolear la supervivencia extrema del binomio).</span></li>
+            </ul>
+
+            <!-- CAPITULO V -->
+            <h2 id="cap5">CAPÍTULO V - EMERGENCIAS VETERINARIAS Y TRANSPORTE</h2>
+            
+            <h3 id="cap5-inc1">INCISO I - Código K-9 Down (Canino Herido).</h3>
+            <p>Un canino herido de bala o apuñalado se declara en radio como <strong>"K-9 Down"</strong>.</p>
+            <ul>
+                <li>El operativo táctico pasa a ser secundario para el Handler. Su prioridad absoluta es extraer al perro.</li>
+                <li>Se autoriza Código 3 (Luces y Sirenas) para trasladar al canino a la Clínica Veterinaria de Sandy Shores o Paleto Bay.</li>
+                <li>El Handler está autorizado y entrenado para realizar RCP Canina (boca-hocico y compresiones torácicas laterales) y aplicar QuickClot (agentes hemostáticos) en heridas de bala.</li>
+            </ul>
+
+            <h3 id="cap5-inc2">INCISO II - Prevención de Golpes de Calor.</h3>
+            <ul>
+                <li>Los caninos no regulan la temperatura sudando. Si el perro jadea excesivamente, tiene las encías rojo oscuro o se tambalea, está sufriendo un golpe de calor.</li>
+                <li><strong>Protocolo de Enfriamiento:</strong> NUNCA usar hielo o agua congelada de golpe (causa shock). Aplicar agua a temperatura ambiente en almohadillas (patas), ingles y vientre. Poner el vehículo con AC al máximo.</li>
+            </ul>
+
+            <h3 id="cap5-inc3">INCISO III - Transporte Aéreo (Air-9 / ASD).</h3>
+            <p>Para traslados rápidos al condado norte en helicóptero (Air Support Division):</p>
+            <ul>
+                <li>El canino debe equipar <strong>Gafas Rex Specs</strong> (contra polvo/escombros) y <strong>Orejeras Mutt Muffs</strong> (protección auditiva contra los rotores).</li>
+                <li>El embarque y desembarque se hará SIEMPRE por el lateral de la aeronave, alejados del rotor de cola.</li>
+            </ul>
+
+            <!-- CAPITULO VI -->
+            <h2 id="cap6">CAPÍTULO VI - EVALUACIÓN Y CERTIFICACIÓN</h2>
+            
+            <h3 id="cap6-inc1">INCISO I - Criterios de evaluación para Agentes en Prácticas.</h3>
+            <p>Todo aspirante ("Agente K-9 en Prácticas") deberá pasar un periodo de prueba de 2 semanas. Un "Subcoordinador" o "K-9 Veterano" lo evaluará basándose en:</p>
+            <ol>
+                <li><strong>Control del Canino:</strong> Uso correcto de comandos y obediencia del perro.</li>
+                <li><strong>Rol de Entorno:</strong> Calidad de los comandos /me y /do relacionados con el animal.</li>
+                <li><strong>Decisión Táctica:</strong> Saber cuándo desplegar al perro y cuándo retenerlo.</li>
+                <li><strong>Comunicaciones:</strong> Claridad al transmitir las alertas del canino por la radio del LSSD.</li>
+            </ol>
+
+            <h3 id="cap6-inc2">INCISO II - Tabla de Calificación.</h3>
+            <p>El instructor rellenará la siguiente tabla tras el periodo de prácticas de patrullaje conjunto. (Puntuación de 1 a 5).</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ÁREA DE EVALUACIÓN</th>
+                        <th>CRITERIO ESPECÍFICO</th>
+                        <th style="text-align:center; width: 100px;">NOTA (1-5)</th>
+                        <th>OBSERVACIONES DEL INSTRUCTOR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Rol de Entorno (/me y /do)</strong></td>
+                        <td>Detalla las acciones, olfateos, ladridos y marcajes del perro correctamente.</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control de Comandos</strong></td>
+                        <td>El agente usa los comandos correctos (HATCH, LOVE, MEDIC, SIT, etc.) sin dudar.</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cuidado del Animal</strong></td>
+                        <td>Rolea hidratación, descanso, y comprueba el bienestar del K-9 en el vehículo.</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Uso de la Fuerza</strong></td>
+                        <td>Respeta la escala. Da los avisos obligatorios antes de liberar al canino.</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gestión de Estrés</strong></td>
+                        <td>Mantiene la calma en persecuciones o tiroteos, protegiendo al canino.</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: #f5f5f5;">
+                        <td colspan="2" style="text-align: right;"><strong>Resultado Final:</strong></td>
+                        <td colspan="2"><strong>[ &nbsp; ] APTO &nbsp; / &nbsp; [ &nbsp; ] NO APTO</strong> <br><br><span style="font-size: 0.8rem; color: #777;">(Firma del Subcoordinador/Director)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for sidebar links ensuring they offset correctly if needed
+        document.querySelectorAll('.sidebar a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                const scrollArea = document.getElementById('scroll-area');
+                
+                if (targetElement) {
+                    // Scroll into view within the scroll area
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
