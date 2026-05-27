@@ -1,25 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual K-9 LSSD</title>
+    <title>Manual K-9 LSSD - Intranet</title>
+    <!-- Importamos tipografías modernas y profesionales -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --lssd-green: #2c3e2e;
-            --lssd-green-light: #4a5c4c;
-            --lssd-tan: #e9e5d9;
-            --lssd-tan-light: #fdfbf7;
-            --lssd-gold: #d4af37;
-            --text-main: #333333;
-            --danger: #b22222;
+            --lssd-dark: #1b261d;
+            --lssd-green: #2a3d2e;
+            --lssd-green-light: #435c48;
+            --lssd-bg-page: #f0f2f5;
+            --lssd-gold: #cda434;
+            --text-main: #334155;
+            --text-heading: #0f172a;
+            --danger: #dc2626;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--lssd-tan);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--lssd-bg-page);
             margin: 0;
             color: var(--text-main);
             display: flex;
@@ -30,33 +31,36 @@
         /* Sidebar Navigation */
         .sidebar {
             width: 320px;
-            background-color: var(--lssd-green);
-            color: var(--lssd-tan);
+            background: linear-gradient(180deg, var(--lssd-dark) 0%, var(--lssd-green) 100%);
+            color: white;
             overflow-y: auto;
-            padding: 20px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            padding: 25px 20px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
             z-index: 10;
         }
 
         .sidebar-header {
             text-align: center;
-            border-bottom: 2px solid var(--lssd-gold);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .sidebar-header h2 {
+            font-family: 'Montserrat', sans-serif;
             color: var(--lssd-gold);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin: 0;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .sidebar-header p {
-            font-size: 0.8rem;
-            color: #aaa;
-            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin: 8px 0 0 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .nav-list {
@@ -66,31 +70,33 @@
         }
 
         .nav-chapter {
-            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             color: var(--lssd-gold);
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 0.95rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
         }
 
         .nav-item {
-            margin-bottom: 8px;
-            padding-left: 10px;
+            margin-bottom: 4px;
         }
 
         .nav-item a {
-            color: #d1cfc9;
+            color: #cbd5e1;
             text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s, background-color 0.2s;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
             display: block;
-            padding: 6px 8px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
         }
 
         .nav-item a:hover {
-            color: #fff;
-            background-color: rgba(212, 175, 55, 0.2);
+            color: #ffffff;
+            background-color: rgba(205, 164, 52, 0.15);
+            transform: translateX(4px);
         }
 
         /* Main Content */
@@ -98,18 +104,26 @@
             flex-grow: 1;
             padding: 40px;
             overflow-y: auto;
-            background-color: var(--lssd-tan-light);
             scroll-behavior: smooth;
         }
 
         .document-container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
-            padding: 50px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-top: 8px solid var(--lssd-green);
+            background: #ffffff;
+            padding: 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        /* Decorative top bar for the document */
+        .document-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--lssd-green), var(--lssd-gold));
+            border-radius: 12px 12px 0 0;
         }
 
         /* Top Bar Actions */
@@ -127,107 +141,164 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .btn-print:hover {
-            background-color: var(--lssd-green-light);
+            background-color: var(--lssd-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
         /* Typography */
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-heading);
+        }
+
         h1 {
             color: var(--lssd-green);
-            border-bottom: 2px solid var(--lssd-gold);
             padding-bottom: 15px;
             text-align: center;
             font-size: 2.2rem;
+            font-weight: 800;
             margin-top: 0;
+            letter-spacing: -0.5px;
         }
 
         h2 {
             color: var(--lssd-green);
-            margin-top: 40px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 8px;
+            margin-top: 50px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
             font-size: 1.5rem;
+            font-weight: 700;
         }
 
         h3 {
             color: var(--lssd-green-light);
-            margin-top: 25px;
-            font-size: 1.2rem;
+            margin-top: 30px;
+            font-size: 1.15rem;
+            font-weight: 600;
         }
 
         p, li {
-            line-height: 1.7;
+            line-height: 1.8;
             font-size: 1.05rem;
-            color: #444;
         }
 
-        ul {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        strong {
-            color: var(--lssd-green);
-        }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        strong { color: var(--text-heading); font-weight: 600; }
 
         /* Highlight & Roles */
         .role-note {
             font-style: italic;
-            color: #555;
-            background-color: #f5f5f5;
-            padding: 2px 6px;
-            border-radius: 4px;
+            color: #64748b;
+            background-color: #f8fafc;
+            padding: 4px 10px;
+            border-radius: 6px;
             font-size: 0.95rem;
             border-left: 3px solid var(--lssd-gold);
+            display: inline-block;
+            margin-top: 5px;
         }
 
-        .warning-text {
-            color: var(--danger);
-            font-weight: bold;
-        }
+        .warning-text { color: var(--danger); font-weight: 600; }
 
-        /* Table Styles */
+        /* Modern Table Styles */
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-            margin-bottom: 25px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 30px;
+            margin-bottom: 30px;
             background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         th, td {
-            border: 1px solid #ccc;
-            padding: 12px;
+            padding: 16px;
             text-align: left;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         th {
             background-color: var(--lssd-green);
             color: white;
-            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        td {
-            color: #444;
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) td { background-color: #f8fafc; }
+
+        /* Portada Images */
+        .cover-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .cover-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 30px;
+        }
+
+        .logo-lssd, .logo-k9 {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-lssd:hover, .logo-k9:hover { transform: scale(1.05); }
+
+        .logo-k9 { border-radius: 50%; }
+
+        .k9-hero-image {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            object-position: center 20%;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            margin-top: 35px;
+        }
+
+        /* Print Media Query */
+        @media print {
+            body { height: auto; overflow: visible; background: white; }
+            .sidebar { display: none; }
+            .action-bar { display: none; }
+            .content-wrapper { padding: 0; background: white; }
+            .document-container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+            .document-container::before { display: none; }
+            h1, h2 { page-break-after: avoid; }
+            p, ul, table { page-break-inside: avoid; }
         }
 
         /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--lssd-tan); }
-        ::-webkit-scrollbar-thumb { background: var(--lssd-green-light); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--lssd-green); }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--lssd-bg-page); }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
     </style>
 </head>
@@ -237,7 +308,7 @@
     <div class="sidebar">
         <div class="sidebar-header">
             <h2>LSSD K-9 DIVISION</h2>
-            <p>Manual de protocolos</p>
+            <p>Intranet Documental</p>
         </div>
         
         <ul class="nav-list">
@@ -278,15 +349,33 @@
     <!-- Main Content -->
     <div class="content-wrapper" id="scroll-area">
         
+        <!-- BOTÓN DE IMPRIMIR DESCONECTADO (Oculto)
+             Para volver a activarlo, simplemente borra las etiquetas de comentario de este bloque.
         <div class="action-bar">
             <button class="btn-print" onclick="window.print()">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                 Imprimir / PDF
             </button>
         </div>
+        -->
 
         <div class="document-container">
-            <h1>MANUAL DE PROCEDIMIENTOS Y PROTOCOLOS<br><span style="font-size: 1.5rem; color: #777;">DIVISIÓN K-9 LSSD</span></h1>
+            
+            <!-- SECCIÓN DE PORTADA -->
+            <div class="cover-header">
+                <div class="cover-logos">
+                    <!-- Logo LSSD (Reemplaza el 'src' con el link del logo de tu servidor) -->
+                    <img class="logo-lssd" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Los_Angeles_County_Sheriff%27s_Department_logo.svg/512px-Los_Angeles_County_Sheriff%27s_Department_logo.svg.png" alt="Logo LSSD" title="Logo LSSD">
+                    
+                    <!-- Logo División K-9 (Reemplaza el 'src' con el parche K-9) -->
+                    <img class="logo-k9" src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=200&q=80" alt="Parche K-9" title="Parche K-9">
+                </div>
+                
+                <h1>MANUAL DE PROCEDIMIENTOS Y PROTOCOLOS<br><span style="font-size: 1.5rem; color: #777;">DIVISIÓN K-9 LSSD</span></h1>
+                
+                <!-- Imagen representativa K-9 (Reemplaza el 'src' con una captura de pantalla de FiveM) -->
+                <img class="k9-hero-image" src="https://images.unsplash.com/photo-1605639156481-244775d6f803?auto=format&fit=crop&w=1200&q=80" alt="Unidad K-9 Patrullando" title="Unidad K-9 en Servicio">
+            </div>
 
             <!-- CAPITULO I -->
             <h2 id="cap1">CAPÍTULO I - SOBRE LA ENTRADA DE SERVICIO Y CUIDADO</h2>
